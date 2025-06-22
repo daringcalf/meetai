@@ -46,7 +46,7 @@ const SignInView = () => {
 
     await signIn.email(data, {
       onError: (error) => {
-        toast.error(error.error.message, {
+        toast.error(error?.error?.message || 'Sign in failed', {
           description: 'Please check your credentials and try again.',
           duration: 5000,
         });

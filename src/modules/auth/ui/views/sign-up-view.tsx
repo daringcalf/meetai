@@ -55,7 +55,7 @@ const SignUpView = () => {
 
     await signUp.email(data, {
       onError: (error) => {
-        toast.error(error.error.message, {
+        toast.error(error?.error?.message || 'Sign up failed', {
           description: 'Please check your credentials and try again.',
           duration: 5000,
         });
@@ -148,7 +148,7 @@ const SignUpView = () => {
 
                 <Button type='submit' disabled={authPending}>
                   {authPending && <Loader2 className='animate-spin' />}
-                  {authPending ? 'Signing In...' : 'Sign In'}
+                  {authPending ? 'Signing Up...' : 'Sign Up'}
                 </Button>
               </form>
             </Form>
