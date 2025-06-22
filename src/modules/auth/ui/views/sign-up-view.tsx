@@ -20,15 +20,21 @@ import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { signIn, signUp } from '@/lib/auth-client';
+import { signUp } from '@/lib/auth-client';
 import { toast } from 'sonner';
 
 const formSchema = z
   .object({
     name: z.string().min(1, 'Name is required'),
     email: z.email(),
-    password: z.string().min(1, 'Password is required'),
-    confirmPassword: z.string().min(1, 'Confirm Password is required'),
+    password: z
+      .string()
+      .min(8, 'Password must be at least 8 characters long')
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+        'Password must contain at least one uppercase letter, one lowercase letter, and one number'
+      ),
+    confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Passwords do not match',
@@ -162,11 +168,11 @@ const SignUpView = () => {
             </div>
 
             <div className='grid grid-cols-2 gap-4'>
-              <Button variant='outline' disabled={authPending}>
-                Google
+              <Button variant='outline' disabled={true}>
+                Google (Coming Soon)
               </Button>
-              <Button variant='outline' disabled={authPending}>
-                GitHub
+              <Button variant='outline' disabled={true}>
+                GitHub (Coming Soon)
               </Button>
             </div>
 

@@ -125,11 +125,11 @@ const SignInView = () => {
             </div>
 
             <div className='grid grid-cols-2 gap-4'>
-              <Button variant='outline' disabled={authPending}>
-                Google
+              <Button variant='outline' disabled={true}>
+                Google (Coming Soon)
               </Button>
-              <Button variant='outline' disabled={authPending}>
-                GitHub
+              <Button variant='outline' disabled={true}>
+                GitHub (Coming Soon)
               </Button>
             </div>
 
