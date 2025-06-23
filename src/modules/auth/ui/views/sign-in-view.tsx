@@ -15,7 +15,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { signIn } from '@/lib/auth-client';
 import { toast } from 'sonner';
@@ -23,15 +22,16 @@ import AuthBrandColumn from '../components/auth-brand-column';
 import AuthSeparator from '../components/auth-separator';
 import AuthFooter from '../components/auth-footer';
 import AuthToggle from '../components/auth-toggle';
+import SocialSignOn from '../components/social-sign-on';
 
 const formSchema = z.object({
   email: z.email(),
   password: z.string().min(1, 'Password is required'),
 });
 
-const SignInView = () => {
-  const router = useRouter();
+export const redirectURL = '/';
 
+const SignInView = () => {
   const [authPending, setAuthPending] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -45,24 +45,28 @@ const SignInView = () => {
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setAuthPending(true);
 
-    await signIn.email(data, {
-      onError: (error) => {
-        toast.error(error?.error?.message || 'Sign in failed', {
-          description: 'Please check your credentials and try again.',
-          duration: 5000,
-        });
-        setAuthPending(false);
+    await signIn.email(
+      {
+        ...data,
+        callbackURL: redirectURL,
       },
-      onSuccess: () => {
-        router.push('/');
-      },
-    });
+      {
+        onError: (error) => {
+          toast.error(error?.error?.message || 'Sign in failed', {
+            description: 'Please check your credentials and try again.',
+            duration: 5000,
+          });
+          setAuthPending(false);
+        },
+      }
+    );
   };
 
   return (
     <div className='flex flex-col gap-6'>
       <Card className='p-0 overflow-hidden'>
         <CardContent className='grid p-0 md:grid-cols-2'>
+          {/* Left Column: Sign In Form */}
           <div className='flex flex-col gap-6 p-6 md:p-8'>
             <Form {...form}>
               <form
@@ -119,20 +123,13 @@ const SignInView = () => {
 
             <AuthSeparator />
 
-            <div className='grid grid-cols-2 gap-4'>
-              <Button variant='outline' disabled={true}>
-                Google (Coming Soon)
-              </Button>
-              <Button variant='outline' disabled={true}>
-                GitHub (Coming Soon)
-              </Button>
-            </div>
+            <SocialSignOn pending={authPending} />
 
             <AuthToggle
               promptText="Don't have an account?"
               linkText='Sign Up'
+              href='/sign-up'
               disabled={authPending}
-              onClick={() => router.push('/sign-up')}
             />
           </div>
 

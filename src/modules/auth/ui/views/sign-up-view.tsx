@@ -23,6 +23,8 @@ import AuthBrandColumn from '../components/auth-brand-column';
 import AuthSeparator from '../components/auth-separator';
 import AuthFooter from '../components/auth-footer';
 import AuthToggle from '../components/auth-toggle';
+import SocialSignOn from '../components/social-sign-on';
+import { redirectURL } from './sign-in-view';
 
 const formSchema = z
   .object({
@@ -69,7 +71,7 @@ const SignUpView = () => {
         setAuthPending(false);
       },
       onSuccess: () => {
-        router.push('/');
+        router.push(redirectURL);
       },
     });
   };
@@ -78,6 +80,7 @@ const SignUpView = () => {
     <div className='flex flex-col gap-6'>
       <Card className='p-0 overflow-hidden'>
         <CardContent className='grid p-0 md:grid-cols-2'>
+          {/* Left Column: Sign Up Form */}
           <div className='flex flex-col gap-6 p-6 md:p-8'>
             <Form {...form}>
               <form
@@ -162,20 +165,13 @@ const SignUpView = () => {
 
             <AuthSeparator />
 
-            <div className='grid grid-cols-2 gap-4'>
-              <Button variant='outline' disabled={true}>
-                Google (Coming Soon)
-              </Button>
-              <Button variant='outline' disabled={true}>
-                GitHub (Coming Soon)
-              </Button>
-            </div>
+            <SocialSignOn pending={authPending} />
 
             <AuthToggle
               promptText='Already have an account?'
               linkText='Sign In'
+              href='/sign-in'
               disabled={authPending}
-              onClick={() => router.push('/sign-in')}
             />
           </div>
 
