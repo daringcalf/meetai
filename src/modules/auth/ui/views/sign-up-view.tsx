@@ -1,7 +1,6 @@
 'use client';
 
 import { Card, CardContent } from '@/components/ui/card';
-import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod/v4';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -16,12 +15,14 @@ import {
 import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { signUp } from '@/lib/auth-client';
 import { toast } from 'sonner';
+import AuthBrandColumn from '../components/auth-brand-column';
+import AuthSeparator from '../components/auth-separator';
+import AuthFooter from '../components/auth-footer';
+import AuthToggle from '../components/auth-toggle';
 
 const formSchema = z
   .object({
@@ -159,13 +160,7 @@ const SignUpView = () => {
               </form>
             </Form>
 
-            <div className='flex items-center gap-2'>
-              <Separator className='flex-1' />
-              <span className='text-muted-foreground text-sm'>
-                Or continue with
-              </span>
-              <Separator className='flex-1' />
-            </div>
+            <AuthSeparator />
 
             <div className='grid grid-cols-2 gap-4'>
               <Button variant='outline' disabled={true}>
@@ -176,56 +171,19 @@ const SignUpView = () => {
               </Button>
             </div>
 
-            <p className='text-muted-foreground text-sm text-center'>
-              Already have an account?{' '}
-              <Button
-                variant='link'
-                size='sm'
-                disabled={authPending}
-                onClick={() => router.push('/sign-in')}
-              >
-                Sign In
-              </Button>
-            </p>
-          </div>
-
-          <div className='relative hidden md:flex flex-col items-center justify-center bg-radial from-emerald-700 to-emerald-900'>
-            <Image
-              src='logo.svg'
-              alt='Logo'
-              width={200}
-              height={200}
-              className='size-24'
+            <AuthToggle
+              promptText='Already have an account?'
+              linkText='Sign In'
+              disabled={authPending}
+              onClick={() => router.push('/sign-in')}
             />
-
-            <p className='text-white text-2xl font-semibold'>Meet・AI</p>
           </div>
+
+          <AuthBrandColumn />
         </CardContent>
       </Card>
 
-      <footer>
-        <p className='text-xs text-muted-foreground text-center'>
-          By clicking continue, you agree to our{' '}
-          <Link
-            href='/terms'
-            className='underline hover:text-primary'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            Terms of Service
-          </Link>{' '}
-          and{' '}
-          <Link
-            href='/privacy'
-            className='underline hover:text-primary'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            Privacy Policy
-          </Link>
-          .
-        </p>
-      </footer>
+      <AuthFooter />
     </div>
   );
 };
