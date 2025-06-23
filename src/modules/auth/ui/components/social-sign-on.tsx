@@ -31,6 +31,7 @@ const SocialSignOn = ({ pending }: SocialSignOnProps) => {
               duration: 5000,
             }
           );
+          setDisabled(false);
         },
         // Don't use onSuccess for social sign-in
         // The success handling happens after OAuth redirect

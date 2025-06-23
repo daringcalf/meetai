@@ -8,7 +8,7 @@ const SignUpPage = async () => {
     headers: await headers(),
   });
 
-  if (!!session) {
+  if (session) {
     redirect('/');
   }
 
