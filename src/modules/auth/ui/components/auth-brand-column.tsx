@@ -7,9 +7,10 @@ const AuthBrandColumn = () => {
         <Image
           src='logo.svg'
           alt='Meet・AI Logo'
-          width={200}
-          height={200}
+          width={50}
+          height={50}
           className='w-24 h-16 drop-shadow-lg hover:scale-110 transition-all duration-300 opacity-90'
+          priority
         />
       </div>
 
