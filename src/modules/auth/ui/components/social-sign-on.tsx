@@ -7,7 +7,11 @@ import BrandIcon from '@/components/brand-icon';
 type Provider = 'google' | 'github';
 const callbackURL = '/';
 
-const SocialSignOn = () => {
+interface SocialSignOnProps {
+  pending?: boolean;
+}
+
+const SocialSignOn = ({ pending }: SocialSignOnProps) => {
   const [disabled, setDisabled] = useState<boolean>(false);
 
   const onSocialSignOn = async (provider: Provider) => {
@@ -38,7 +42,7 @@ const SocialSignOn = () => {
     <div className='grid grid-cols-2 gap-4'>
       <Button
         variant='outline'
-        disabled={disabled}
+        disabled={pending || disabled}
         onClick={() => onSocialSignOn('google')}
       >
         <BrandIcon name='siGoogle' />
@@ -46,7 +50,7 @@ const SocialSignOn = () => {
       </Button>
       <Button
         variant='outline'
-        disabled={disabled}
+        disabled={pending || disabled}
         onClick={() => onSocialSignOn('github')}
         className='flex items-center gap-2'
       >

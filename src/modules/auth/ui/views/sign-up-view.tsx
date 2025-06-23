@@ -15,6 +15,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { signUp } from '@/lib/auth-client';
 import { toast } from 'sonner';
@@ -23,7 +24,7 @@ import AuthSeparator from '../components/auth-separator';
 import AuthFooter from '../components/auth-footer';
 import AuthToggle from '../components/auth-toggle';
 import SocialSignOn from '../components/social-sign-on';
-import { callbackURL } from './sign-in-view';
+import { redirectURL } from './sign-in-view';
 
 const formSchema = z
   .object({
@@ -44,6 +45,8 @@ const formSchema = z
   });
 
 const SignUpView = () => {
+  const router = useRouter();
+
   const [authPending, setAuthPending] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -59,21 +62,18 @@ const SignUpView = () => {
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setAuthPending(true);
 
-    await signUp.email(
-      {
-        ...data,
-        callbackURL: callbackURL,
+    await signUp.email(data, {
+      onError: (error) => {
+        toast.error(error?.error?.message || 'Sign up failed', {
+          description: 'Please check your credentials and try again.',
+          duration: 5000,
+        });
+        setAuthPending(false);
       },
-      {
-        onError: (error) => {
-          toast.error(error?.error?.message || 'Sign up failed', {
-            description: 'Please check your credentials and try again.',
-            duration: 5000,
-          });
-          setAuthPending(false);
-        },
-      }
-    );
+      onSuccess: () => {
+        router.push(redirectURL);
+      },
+    });
   };
 
   return (
@@ -165,7 +165,7 @@ const SignUpView = () => {
 
             <AuthSeparator />
 
-            <SocialSignOn />
+            <SocialSignOn pending={authPending} />
 
             <AuthToggle
               promptText='Already have an account?'

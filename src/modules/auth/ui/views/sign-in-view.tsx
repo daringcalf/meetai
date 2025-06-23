@@ -29,7 +29,7 @@ const formSchema = z.object({
   password: z.string().min(1, 'Password is required'),
 });
 
-export const callbackURL = '/';
+export const redirectURL = '/';
 
 const SignInView = () => {
   const [authPending, setAuthPending] = useState<boolean>(false);
@@ -48,7 +48,7 @@ const SignInView = () => {
     await signIn.email(
       {
         ...data,
-        callbackURL,
+        callbackURL: redirectURL,
       },
       {
         onError: (error) => {
@@ -123,7 +123,7 @@ const SignInView = () => {
 
             <AuthSeparator />
 
-            <SocialSignOn />
+            <SocialSignOn pending={authPending} />
 
             <AuthToggle
               promptText="Don't have an account?"
