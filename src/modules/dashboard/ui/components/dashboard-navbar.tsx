@@ -55,9 +55,7 @@ const DashboardNavbar = () => {
             placeholder='Search...'
             id='search-input'
             className='pl-7'
-            autoComplete='off'
-            value=''
-            defaultValue=''
+            readOnly
           />
 
           <div className='absolute right-2 flex gap-1'>

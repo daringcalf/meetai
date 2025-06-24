@@ -1,40 +1,16 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { useSession, signOut } from '@/lib/auth-client';
-import { useRouter } from 'next/navigation';
+import { useTRPC } from '@/trpc/client';
+import { useQuery } from '@tanstack/react-query';
 
 export default function HomeView() {
-  const router = useRouter();
-
-  const { data: session } = useSession();
-
-  if (!session) {
-    return (
-      <div className='flex flex-col items-center justify-center min-h-dvh gap-4'>
-        <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900'></div>
-        <p>Loading...</p>
-      </div>
-    );
-  }
+  const trpc = useTRPC();
+  const { data } = useQuery(trpc.hello.queryOptions({ text: 'haha' }));
 
   return (
     <div className='flex flex-col items-center justify-center p-4 gap-4'>
-      <h1>Welcome, {session.user.name}!</h1>
-      <p>Email: {session.user.email}</p>
-      <Button
-        onClick={() =>
-          signOut({
-            fetchOptions: {
-              onSuccess: () => {
-                router.push('/sign-in');
-              },
-            },
-          })
-        }
-      >
-        Sign Out
-      </Button>
+      <h1 className='text-2xl font-bold'>Welcome to the Home View</h1>
+      <p className='text-gray-600'>{data?.greeting}</p>
     </div>
   );
 }
