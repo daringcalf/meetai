@@ -1,10 +1,10 @@
 import {
-  CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
+  CommandResponsiveDialog,
 } from '@/components/ui/command';
 
 interface DashboardCommandProps {
@@ -14,8 +14,11 @@ interface DashboardCommandProps {
 
 const DashboardCommand = ({ open, setOpen }: DashboardCommandProps) => {
   return (
-    <CommandDialog open={open} onOpenChange={setOpen}>
-      <CommandInput placeholder='Find a meeting or agent' />
+    <CommandResponsiveDialog open={open} onOpenChange={setOpen}>
+      <CommandInput
+        placeholder='Find a meeting or agent'
+        className='text-base' // less than 16px will trigger zoom on iOS devices
+      />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup>
@@ -24,7 +27,7 @@ const DashboardCommand = ({ open, setOpen }: DashboardCommandProps) => {
           <CommandItem>Calculator</CommandItem>
         </CommandGroup>
       </CommandList>
-    </CommandDialog>
+    </CommandResponsiveDialog>
   );
 };
 
