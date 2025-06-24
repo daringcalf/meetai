@@ -1,0 +1,44 @@
+import { Loader2, AlertCircle } from 'lucide-react';
+import { Card } from './ui/card';
+import { cn } from '@/lib/utils';
+
+interface StatusDisplayProps {
+  title: string;
+  description: string;
+  type?: 'loading' | 'error';
+}
+
+const StatusDisplay = ({
+  title,
+  description,
+  type = 'loading',
+}: StatusDisplayProps) => {
+  const isError = type === 'error';
+
+  return (
+    <div className='grid place-items-center h-full'>
+      <Card
+        className={cn(
+          'p-8 border-none shadow-sm',
+          isError
+            ? 'bg-gradient-to-br from-rose-50 to-rose-100'
+            : 'bg-gradient-to-br from-emerald-50 to-emerald-100'
+        )}
+      >
+        <div className='flex items-center space-x-4'>
+          {isError ? (
+            <AlertCircle className='h-8 w-8 text-rose-600' />
+          ) : (
+            <Loader2 className='h-8 w-8 text-emerald-600 animate-spin' />
+          )}
+          <div className='flex flex-col space-y-1'>
+            <h6 className='text-lg font-semibold text-gray-800'>{title}</h6>
+            <p className='text-sm text-gray-600'>{description}</p>
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+};
+
+export default StatusDisplay;
