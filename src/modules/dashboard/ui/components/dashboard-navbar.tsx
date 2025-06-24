@@ -2,11 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import {
-  SidebarInput,
-  SidebarTrigger,
-  useSidebar,
-} from '@/components/ui/sidebar';
+import { SidebarInput, SidebarTrigger } from '@/components/ui/sidebar';
 import useCommandSymbol from '@/hooks/use-command-symbol';
 import { Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -56,6 +52,8 @@ const DashboardNavbar = () => {
             id='search-input'
             className='pl-7'
             readOnly
+            // https://github.com/vercel/next.js/issues/77710
+            suppressHydrationWarning
           />
 
           <div className='absolute right-2 flex gap-1'>

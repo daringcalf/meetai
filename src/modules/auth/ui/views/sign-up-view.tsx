@@ -86,6 +86,8 @@ const SignUpView = () => {
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className='flex flex-col gap-6'
+                // https://github.com/vercel/next.js/issues/77710
+                suppressHydrationWarning
               >
                 <header className='flex flex-col items-center justify-center'>
                   <h1 className='text-2xl font-bold'>Let's get you started</h1>

@@ -45,4 +45,7 @@ export const auth = betterAuth({
       clientSecret: googleClientSecret,
     },
   },
+  trustedOrigins: process.env.BETTER_AUTH_TRUSTED_ORIGINS?.split(',') || [
+    'http://localhost:3000',
+  ],
 });
