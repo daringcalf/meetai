@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import {
   SidebarInput,
@@ -17,8 +16,6 @@ const DashboardNavbar = () => {
   const commandSymbol = useCommandSymbol();
 
   const [comboBoxOpen, setComboBoxOpen] = useState(false);
-
-  const { state, toggleSidebar, isMobile } = useSidebar();
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -46,6 +43,7 @@ const DashboardNavbar = () => {
         <Button
           variant='ghost'
           size='sm'
+          aria-label='Search'
           className='relative w-44 hover:bg-transparent !p-0'
           onClick={() => {
             setComboBoxOpen(true);
