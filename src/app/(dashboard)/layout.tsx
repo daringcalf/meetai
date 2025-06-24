@@ -1,5 +1,6 @@
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
-import DashboardSidebar from '@/modules/dashboard/components/dashboard-sidebar';
+import DashboardNavbar from '@/modules/dashboard/ui/components/dashboard-navbar';
+import DashboardSidebar from '@/modules/dashboard/ui/components/dashboard-sidebar';
 
 export default function DashboardLayout({
   children,
@@ -9,7 +10,10 @@ export default function DashboardLayout({
   return (
     <SidebarProvider>
       <DashboardSidebar />
-      <SidebarInset>{children}</SidebarInset>
+      <SidebarInset>
+        <DashboardNavbar />
+        {children}
+      </SidebarInset>
     </SidebarProvider>
   );
 }
