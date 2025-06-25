@@ -36,7 +36,12 @@ const ResponsiveDialog = ({
   if (isMobile)
     return (
       <Sheet open={open} onOpenChange={onOpenChange}>
-        <SheetContent side='bottom' className='px-6 pb-8'>
+        <SheetContent
+          side='bottom'
+          className='px-6 pb-8'
+          // workaround for iOS auto-focus scrolling issue
+          onOpenAutoFocus={(e) => e.preventDefault()}
+        >
           <SheetHeader className='px-0'>
             <SheetTitle>{title}</SheetTitle>
             <SheetDescription>{description}</SheetDescription>

@@ -30,7 +30,7 @@ const DashboardNavbar = () => {
     <>
       <DashboardCommand open={comboBoxOpen} setOpen={setComboBoxOpen} />
 
-      <nav className='flex items-center border-b bg-background gap-2 py-3 px-2'>
+      <nav className='flex items-center border-b bg-background gap-2 py-1 md:py-2 px-2'>
         <div className='flex items-center'>
           <SidebarTrigger className='size-9' />
           <Separator orientation='vertical' className='!h-6' />

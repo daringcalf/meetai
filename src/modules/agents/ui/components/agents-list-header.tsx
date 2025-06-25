@@ -6,12 +6,18 @@ import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { useTRPC } from '@/trpc/client';
 import { useSuspenseQuery } from '@tanstack/react-query';
+import { useAgentFilters } from '../../hooks/use-agent-filters';
 
 const AgentsListHeader = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [filters] = useAgentFilters();
 
   const trpc = useTRPC();
-  void useSuspenseQuery(trpc.agents.getMany.queryOptions());
+  void useSuspenseQuery(
+    trpc.agents.getMany.queryOptions({
+      ...filters,
+    })
+  );
 
   return (
     <>
