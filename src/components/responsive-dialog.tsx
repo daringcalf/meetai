@@ -9,12 +9,12 @@ import {
   DialogTitle,
 } from './ui/dialog';
 import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-} from './ui/drawer';
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from '@/components/ui/sheet';
 
 interface ResponsiveDialogProps {
   title: string;
@@ -35,16 +35,16 @@ const ResponsiveDialog = ({
 
   if (isMobile)
     return (
-      <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent>
-          <DrawerHeader>
-            <DrawerTitle>{title}</DrawerTitle>
-            <DrawerDescription>{description}</DrawerDescription>
-          </DrawerHeader>
+      <Sheet open={open} onOpenChange={onOpenChange}>
+        <SheetContent side='bottom' className='px-6 pb-8'>
+          <SheetHeader className='px-0'>
+            <SheetTitle>{title}</SheetTitle>
+            <SheetDescription>{description}</SheetDescription>
+          </SheetHeader>
 
           {children}
-        </DrawerContent>
-      </Drawer>
+        </SheetContent>
+      </Sheet>
     );
 
   return (

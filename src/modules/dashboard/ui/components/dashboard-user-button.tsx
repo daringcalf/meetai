@@ -67,13 +67,14 @@ const DashboardUserButton = () => {
                 name={data?.user.name}
                 image={data?.user.image}
                 isPending={isPending}
+                className='border border-border/20'
               />
 
-              <div className='grid flex-1 text-left text-sm leading-tight'>
+              <div className='grid flex-1'>
                 {isPending ? (
                   <>
-                    <Skeleton className='h-4 w-20' />
-                    <Skeleton className='mt-[0.5rem] h-3 w-32' />
+                    <Skeleton className='h-3.5 w-20' />
+                    <Skeleton className='mt-1.5 h-2.5 w-32' />
                   </>
                 ) : (
                   <>
@@ -101,6 +102,7 @@ const DashboardUserButton = () => {
                   name={data?.user.name}
                   image={data?.user.image}
                   isPending={isPending}
+                  className='border border-border/20'
                 />
                 <div className='grid flex-1 text-left text-sm leading-tight'>
                   <span className='truncate font-medium'>
