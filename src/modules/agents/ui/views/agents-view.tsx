@@ -6,9 +6,10 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { DataTable } from '../components/data-table';
 import { columns } from '../components/columns';
 import { useAgentFilters } from '../../hooks/use-agent-filters';
+import DataPagination from '../components/data-pagination';
 
 const AgentsView = () => {
-  const [filters] = useAgentFilters();
+  const [filters, setFilters] = useAgentFilters();
   const trpc = useTRPC();
 
   const { data } = useSuspenseQuery(
@@ -20,6 +21,21 @@ const AgentsView = () => {
   return (
     <div className=''>
       <DataTable columns={columns} data={data.items} />
+
+      {data.items.length > 0 && (
+        <DataPagination
+          page={filters.page}
+          totalPages={data.totalPages}
+          onPageChange={(page) => {
+            setFilters((prev) => ({
+              ...prev,
+              page:
+                page < 1 ? 1 : page > data.totalPages ? data.totalPages : page,
+            }));
+          }}
+        />
+      )}
+
       {data.items.length === 0 && (
         <StatusDisplay
           title='Create your agents'
