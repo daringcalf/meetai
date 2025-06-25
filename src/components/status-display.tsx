@@ -1,11 +1,11 @@
-import { Loader2, AlertCircle } from 'lucide-react';
+import { Loader2, AlertCircle, Bot } from 'lucide-react';
 import { Card } from './ui/card';
 import { cn } from '@/lib/utils';
 
 interface StatusDisplayProps {
   title: string;
   description: string;
-  type?: 'loading' | 'error';
+  type?: 'loading' | 'error' | 'empty';
 }
 
 const StatusDisplay = ({
@@ -13,6 +13,20 @@ const StatusDisplay = ({
   description,
   type = 'loading',
 }: StatusDisplayProps) => {
+  if (type === 'empty') {
+    return (
+      <div className='flex items-center justify-center h-full'>
+        <Card className='p-8 border-none bg-white shadow-none'>
+          <div className='flex flex-col items-center gap-3'>
+            <Bot />
+            <h6 className='text-base font-medium text-gray-800'>{title}</h6>
+            <p className='text-sm text-gray-500 text-center'>{description}</p>
+          </div>
+        </Card>
+      </div>
+    );
+  }
+
   const isError = type === 'error';
 
   return (

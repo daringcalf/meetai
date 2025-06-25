@@ -26,7 +26,7 @@ const AgentsPage = async () => {
   void queryClient.prefetchQuery(trpc.agents.getMany.queryOptions());
 
   return (
-    <div className='flex flex-col gap-4 p-4 flex-1'>
+    <div className='flex flex-col gap-4 p-4 md:px-8 flex-1'>
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Suspense fallback={<AgentsListHeaderLoading />}>
           <ErrorBoundary fallback={<AgentsListHeaderLoading />}>
