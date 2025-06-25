@@ -6,17 +6,19 @@ interface StatusDisplayProps {
   title: string;
   description: string;
   type?: 'loading' | 'error' | 'empty';
+  className?: string;
 }
 
 const StatusDisplay = ({
   title,
   description,
   type = 'loading',
+  className,
 }: StatusDisplayProps) => {
   if (type === 'empty') {
     return (
       <div className='flex items-center justify-center h-full'>
-        <Card className='p-8 border-none bg-white shadow-none'>
+        <Card className={cn('p-8 border-none bg-white shadow-none', className)}>
           <div className='flex flex-col items-center gap-3'>
             <Bot />
             <h6 className='text-base font-medium text-gray-800'>{title}</h6>
