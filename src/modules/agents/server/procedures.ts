@@ -38,15 +38,15 @@ export const agentsRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { page, pageSize, search } = input;
 
+      const whereConditions = and(
+        eq(agents.userId, ctx.auth.user.id),
+        search ? ilike(agents.name, `%${search}%`) : undefined
+      );
+
       const data = await db
         .select()
         .from(agents)
-        .where(
-          and(
-            eq(agents.userId, ctx.auth.user.id),
-            search ? ilike(agents.name, `%${search}%`) : undefined
-          )
-        )
+        .where(whereConditions)
         .orderBy(desc(agents.createdAt), desc(agents.id))
         .limit(pageSize)
         .offset((page - 1) * pageSize);
@@ -54,12 +54,7 @@ export const agentsRouter = createTRPCRouter({
       const [total] = await db
         .select({ count: count() })
         .from(agents)
-        .where(
-          and(
-            eq(agents.userId, ctx.auth.user.id),
-            search ? ilike(agents.name, `%${search}%`) : undefined
-          )
-        );
+        .where(whereConditions);
 
       const totalPages = Math.ceil(total.count / pageSize);
 
