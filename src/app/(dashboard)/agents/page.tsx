@@ -23,7 +23,7 @@ const AgentsPage = async () => {
   }
 
   const queryClient = getQueryClient();
-  void queryClient.prefetchQuery(trpc.agents.getMany.queryOptions());
+  void queryClient.prefetchQuery(trpc.agents.getMany.queryOptions({}));
 
   return (
     <div className='flex flex-col gap-4 p-4 md:px-8 flex-1'>

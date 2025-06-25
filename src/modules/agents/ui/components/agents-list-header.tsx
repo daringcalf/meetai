@@ -11,7 +11,7 @@ const AgentsListHeader = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const trpc = useTRPC();
-  void useSuspenseQuery(trpc.agents.getMany.queryOptions());
+  void useSuspenseQuery(trpc.agents.getMany.queryOptions({}));
 
   return (
     <>

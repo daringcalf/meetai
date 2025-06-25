@@ -9,12 +9,12 @@ import { columns } from '../components/columns';
 const AgentsView = () => {
   const trpc = useTRPC();
 
-  const { data } = useSuspenseQuery(trpc.agents.getMany.queryOptions());
+  const { data } = useSuspenseQuery(trpc.agents.getMany.queryOptions({}));
 
   return (
     <div className=''>
-      <DataTable columns={columns} data={data} />
-      {data.length === 0 && (
+      <DataTable columns={columns} data={data.items} />
+      {data.items.length === 0 && (
         <StatusDisplay
           title='Create your first agent'
           description='Create an agent to join your meeting. Each agent can have its own set of instructions and can interact with participants during the call.'
