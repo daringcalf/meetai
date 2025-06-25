@@ -1,7 +1,8 @@
 import { createAvatar } from '@dicebear/core';
 import { initials, thumbs } from '@dicebear/collection';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { Loader2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Skeleton } from './ui/skeleton';
 
 type AvatarStyle = 'initials' | 'thumbs';
 
@@ -10,6 +11,7 @@ interface UserAvatarProps {
   style?: AvatarStyle;
   isPending?: boolean;
   image?: string | undefined | null;
+  className?: string;
 }
 
 const UserAvatar = ({
@@ -17,6 +19,7 @@ const UserAvatar = ({
   style = 'initials',
   isPending,
   image,
+  className,
 }: UserAvatarProps) => {
   let avatar;
 
@@ -34,18 +37,23 @@ const UserAvatar = ({
 
   if (isPending) {
     return (
-      <Avatar className='rounded-lg'>
-        <AvatarFallback>
-          <Loader2 className='animate-spin' />
-        </AvatarFallback>
+      <Avatar className={cn('rounded-lg', className)}>
+        <Skeleton className='size-12' />
       </Avatar>
     );
   }
 
   return (
-    <Avatar className='rounded-lg'>
-      <AvatarImage src={image || avatar.toDataUri()} alt='User Avatar' />
-      <AvatarFallback>{name?.charAt(0).toUpperCase() || 'UR'}</AvatarFallback>
+    <Avatar className={cn('rounded-lg', className)}>
+      <AvatarImage
+        src={image || avatar.toDataUri()}
+        alt='User Avatar'
+        // https://stackoverflow.com/questions/56242788/http-403-on-images-loaded-from-googleusercontent-com
+        referrerPolicy='no-referrer'
+      />
+      <AvatarFallback className={cn('rounded-lg', className)}>
+        {name?.charAt(0).toUpperCase() || 'UR'}
+      </AvatarFallback>
     </Avatar>
   );
 };

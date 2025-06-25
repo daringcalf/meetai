@@ -1,25 +1,48 @@
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { signIn } from '@/lib/auth-client';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import BrandIcon from '@/components/brand-icon';
+import StatusDisplay from '@/components/status-display';
+import { DialogTitle } from '@radix-ui/react-dialog';
+import * as siIcons from 'simple-icons/icons';
 
-type Provider = 'google' | 'github';
 const callbackURL = '/';
+interface Provider {
+  name: 'google' | 'github';
+  label: string;
+  siName: keyof typeof siIcons;
+}
+
+const providers: Provider[] = [
+  {
+    name: 'google',
+    label: 'Google',
+    siName: 'siGoogle',
+  },
+  {
+    name: 'github',
+    label: 'GitHub',
+    siName: 'siGithub',
+  },
+];
 
 interface SocialSignOnProps {
   pending?: boolean;
 }
 
 const SocialSignOn = ({ pending }: SocialSignOnProps) => {
-  const [disabled, setDisabled] = useState<boolean>(false);
+  const [isRedirecting, setIsRedirecting] = useState<boolean>(false);
+  const [authProvider, setAuthProvider] = useState<Provider | null>(null);
 
   const onSocialSignOn = async (provider: Provider) => {
-    setDisabled(true);
+    setIsRedirecting(true);
+    setAuthProvider(provider);
 
     await signIn.social(
       {
-        provider,
+        provider: provider.name,
         callbackURL,
       },
       {
@@ -31,7 +54,7 @@ const SocialSignOn = ({ pending }: SocialSignOnProps) => {
               duration: 5000,
             }
           );
-          setDisabled(false);
+          setIsRedirecting(false);
         },
         // Don't use onSuccess for social sign-in
         // The success handling happens after OAuth redirect
@@ -40,25 +63,37 @@ const SocialSignOn = ({ pending }: SocialSignOnProps) => {
   };
 
   return (
-    <div className='grid grid-cols-2 gap-4'>
-      <Button
-        variant='outline'
-        disabled={pending || disabled}
-        onClick={() => onSocialSignOn('google')}
-      >
-        <BrandIcon name='siGoogle' />
-        Google
-      </Button>
-      <Button
-        variant='outline'
-        disabled={pending || disabled}
-        onClick={() => onSocialSignOn('github')}
-        className='flex items-center gap-2'
-      >
-        <BrandIcon name='siGithub' />
-        GitHub
-      </Button>
-    </div>
+    <>
+      <Dialog open={isRedirecting}>
+        <DialogTitle className='sr-only'>
+          Redirecting to {authProvider?.label}
+        </DialogTitle>
+        <DialogContent
+          className='border-none shadow-none p-0 w-fit bg-transparent focus-visible:outline-none'
+          showCloseButton={false}
+        >
+          <StatusDisplay
+            title='Redirecting...'
+            description={`Redirecting to ${authProvider?.label} for authentication.`}
+            type='loading'
+          />
+        </DialogContent>
+      </Dialog>
+
+      <div className='grid grid-cols-2 gap-4'>
+        {providers.map((provider) => (
+          <Button
+            key={provider.name}
+            variant='outline'
+            disabled={pending || isRedirecting}
+            onClick={() => onSocialSignOn(provider)}
+          >
+            <BrandIcon name={provider.siName} />
+            {provider.label}
+          </Button>
+        ))}
+      </div>
+    </>
   );
 };
 

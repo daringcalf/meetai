@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import {
   Sidebar,
   SidebarContent,
@@ -58,8 +57,8 @@ const DashboardSidebar = () => {
                 <Image
                   src='logo.svg'
                   alt='Meet・AI Logo'
-                  width={32}
-                  height={32}
+                  width={48}
+                  height={48}
                   className='size-12 invert-[90%]'
                   priority
                 />
