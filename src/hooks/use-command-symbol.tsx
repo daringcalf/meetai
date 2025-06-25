@@ -5,7 +5,7 @@ const useCommandSymbol = () => {
 
   useEffect(() => {
     if (typeof navigator !== 'undefined') {
-      const isMac = navigator.userAgent.includes('Macintosh');
+      const isMac = navigator.userAgent.includes('Mac'); // also works for iOS
 
       setSymbol(isMac ? '⌘' : 'Ctrl');
     }

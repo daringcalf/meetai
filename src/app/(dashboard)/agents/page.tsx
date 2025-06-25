@@ -1,5 +1,7 @@
 import { auth } from '@/lib/auth';
-import AgentsListHeader from '@/modules/agents/ui/components/agents-list-header';
+import AgentsListHeader, {
+  AgentsListHeaderLoading,
+} from '@/modules/agents/ui/components/agents-list-header';
 import AgentsView, {
   AgentsViewError,
   AgentsViewLoading,
@@ -24,10 +26,14 @@ const AgentsPage = async () => {
   void queryClient.prefetchQuery(trpc.agents.getMany.queryOptions());
 
   return (
-    <div className='flex flex-col gap-4 p-4'>
-      <AgentsListHeader />
-
+    <div className='flex flex-col gap-4 p-4 flex-1'>
       <HydrationBoundary state={dehydrate(queryClient)}>
+        <Suspense fallback={<AgentsListHeaderLoading />}>
+          <ErrorBoundary fallback={<AgentsListHeaderLoading />}>
+            <AgentsListHeader />
+          </ErrorBoundary>
+        </Suspense>
+
         <Suspense fallback={<AgentsViewLoading />}>
           <ErrorBoundary fallback={<AgentsViewError />}>
             <AgentsView />
