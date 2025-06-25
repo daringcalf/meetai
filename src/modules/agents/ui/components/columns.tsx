@@ -10,12 +10,12 @@ export const columns: ColumnDef<AgentGetOne>[] = [
     accessorKey: 'name',
     header: 'Agent Name',
     cell: ({ row }) => (
-      <div className='flex flex-col gap-1 p-1 md:p-2'>
+      <div className='flex flex-col gap-1 md:p-1'>
         <div className='flex gap-2 items-center'>
           <UserAvatar
             name={row.original.name}
             style='thumbs'
-            className='size-12'
+            className='size-8 border border-border/20 rounded-sm'
           />
           <h6 className='text-base font-medium'>{row.original.name}</h6>
         </div>

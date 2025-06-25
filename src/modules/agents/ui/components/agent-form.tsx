@@ -32,7 +32,7 @@ const AgentForm = ({ onSuccess, onCancel, initialValues }: AgentFormProps) => {
   const createAgent = useMutation(
     trpc.agents.create.mutationOptions({
       onSuccess: () => {
-        queryClient.invalidateQueries(trpc.agents.getMany.queryOptions());
+        queryClient.invalidateQueries(trpc.agents.getMany.queryOptions({}));
 
         if (initialValues?.id) {
           queryClient.invalidateQueries(
@@ -122,7 +122,12 @@ const AgentForm = ({ onSuccess, onCancel, initialValues }: AgentFormProps) => {
 
         <div className='flex justify-end gap-2'>
           {onCancel && (
-            <Button variant='outline' disabled={isPending} onClick={onCancel}>
+            <Button
+              variant='outline'
+              type='button'
+              disabled={isPending}
+              onClick={onCancel}
+            >
               Cancel
             </Button>
           )}

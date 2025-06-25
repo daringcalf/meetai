@@ -23,7 +23,7 @@ const AgentsSearchFilter = ({ disabled }: AgentsSearchFilterProps) => {
   };
 
   return (
-    <div className='relative flex items-center w-96 gap-2'>
+    <div className='relative flex items-center max-w-96 gap-2'>
       <Search className='absolute left-2 size-4 text-muted-foreground' />
 
       <Input

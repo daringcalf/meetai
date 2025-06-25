@@ -18,6 +18,7 @@ const DashboardCommand = ({ open, setOpen }: DashboardCommandProps) => {
       <CommandInput
         placeholder='Find a meeting or agent'
         className='text-base' // less than 16px will trigger zoom on iOS devices
+        autoFocus
       />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
