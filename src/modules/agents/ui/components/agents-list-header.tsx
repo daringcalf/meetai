@@ -40,7 +40,7 @@ const AgentsListHeaderTemplate = ({
   onNewAgentClick,
 }: AgentsListHeaderTemplateProps) => {
   return (
-    <div className='flex items-center justify-between'>
+    <div className='flex items-center justify-between h-9'>
       <h5 className='text-lg font-semibold'>My Agents</h5>
       <Button onClick={onNewAgentClick} disabled={disabled}>
         <Plus />

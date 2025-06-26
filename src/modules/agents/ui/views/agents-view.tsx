@@ -7,10 +7,12 @@ import { DataTable } from '../components/data-table';
 import { columns } from '../components/columns';
 import { useAgentFilters } from '../../hooks/use-agent-filters';
 import DataPagination from '../components/data-pagination';
+import { useRouter } from 'next/navigation';
 
 const AgentsView = () => {
   const [filters, setFilters] = useAgentFilters();
   const trpc = useTRPC();
+  const router = useRouter();
 
   const { data } = useSuspenseQuery(
     trpc.agents.getMany.queryOptions({
@@ -20,7 +22,13 @@ const AgentsView = () => {
 
   return (
     <div className=''>
-      <DataTable columns={columns} data={data.items} />
+      <DataTable
+        columns={columns}
+        data={data.items}
+        onRowClick={(row) => {
+          router.push(`/agents/${row.id}`);
+        }}
+      />
 
       {data.items.length > 0 && (
         <DataPagination

@@ -55,7 +55,7 @@ const DashboardSidebar = () => {
             <SidebarMenuButton size='lg' asChild>
               <Link href='/'>
                 <Image
-                  src='logo.svg'
+                  src='/logo.svg'
                   alt='Meet・AI Logo'
                   width={48}
                   height={48}
