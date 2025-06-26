@@ -2,7 +2,11 @@
 
 import StatusDisplay from '@/components/status-display';
 import { useTRPC } from '@/trpc/client';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 import AgentDetailHeader from '../components/agent-detail-header';
 import {
   Card,
@@ -12,6 +16,11 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import UserAvatar from '@/components/user-avatar';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import useConfirm from '@/hooks/use-confirm';
+import { useState } from 'react';
+import UpdateAgentDialog from '../components/update-agent-dialog';
 
 interface AgentDetailViewProps {
   agentId: string;
@@ -19,21 +28,60 @@ interface AgentDetailViewProps {
 
 const AgentDetailView = ({ agentId }: AgentDetailViewProps) => {
   const trpc = useTRPC();
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { data: agent } = useSuspenseQuery(
     trpc.agents.getOne.queryOptions({ id: agentId })
   );
 
+  const deleteMutation = useMutation(
+    trpc.agents.deleteOne.mutationOptions({
+      onSuccess: () => {
+        queryClient.invalidateQueries(trpc.agents.getMany.queryOptions({}));
+        // TODO: invalidate free tier usage
+        router.push('/agents');
+      },
+      onError: (error) => {
+        toast.error(error.message || 'Failed to delete agent', {
+          description: 'Please try again later.',
+        });
+      },
+    })
+  );
+
+  const [DeleteConfirmation, deleteConfirm] = useConfirm(
+    'Delete Agent',
+    `Are you sure you want to delete the agent "${agent.name}"? This action cannot be undone.`
+  );
+
+  const [UpdateAgentDialogOpen, setUpdateAgentDialogOpen] = useState(false);
+
+  const handleDelete = async () => {
+    const confirmed = await deleteConfirm();
+    if (!confirmed) return;
+
+    deleteMutation.mutate({ id: agentId });
+  };
+
+  const handleEdit = () => {
+    setUpdateAgentDialogOpen(true);
+  };
+
   return (
     <>
+      <DeleteConfirmation />
+
+      <UpdateAgentDialog
+        open={UpdateAgentDialogOpen}
+        onOpenChange={setUpdateAgentDialogOpen}
+        initialValues={agent}
+      />
+
       <AgentDetailHeader
         agentName={agent.name}
-        onEdit={() => {
-          // TODO: Implement edit functionality
-        }}
-        onDelete={() => {
-          // TODO: Implement delete functionality
-        }}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
       />
 
       <Card className='px-0 py-4 md:py-8 gap-4 md:gap-8 shadow-none'>

@@ -50,6 +50,8 @@ const AgentsSearchFilter = ({ disabled }: AgentsSearchFilterProps) => {
         placeholder='Search agents...'
         className='px-7 shadow-none'
         disabled={disabled}
+        name='search'
+        autoComplete='off'
       />
 
       <Button

@@ -18,7 +18,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Edit, Trash2, MoreVertical } from 'lucide-react';
-import { useIsMobile } from '@/hooks/use-mobile';
 
 /**
  * Props for the AgentDetailHeader component
@@ -40,8 +39,6 @@ const AgentDetailHeader = ({
   onEdit,
   onDelete,
 }: AgentDetailHeaderProps) => {
-  const isMobile = useIsMobile();
-
   return (
     <header className='flex items-center justify-between h-9'>
       <Breadcrumb>
@@ -63,60 +60,66 @@ const AgentDetailHeader = ({
         </BreadcrumbList>
       </Breadcrumb>
 
-      {isMobile ? (
-        // without modal={false}, the dialog that this dropdown opens cause the page to get unclickable
-        <DropdownMenu modal={false}>
-          <DropdownMenuTrigger asChild>
-            <Button variant='outline' size='icon' aria-label='More actions'>
-              <MoreVertical />
-            </Button>
-          </DropdownMenuTrigger>
-
-          <DropdownMenuContent align='end'>
-            <DropdownMenuItem
-              onClick={onEdit}
-              className='h-12'
-              aria-label='Edit agent'
-            >
-              <Edit />
-              Edit
-            </DropdownMenuItem>
-
-            <DropdownMenuSeparator />
-
-            <DropdownMenuItem
-              onClick={onDelete}
-              className='h-12'
-              aria-label='Delete agent'
-            >
-              <Trash2 className='text-destructive' />
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      ) : (
-        <div className='flex gap-3'>
+      {/* Mobile dropdown - hidden on desktop */}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild disabled={!onEdit && !onDelete}>
           <Button
             variant='outline'
-            size='sm'
-            onClick={onDelete}
-            aria-label='Delete agent'
+            size='icon'
+            aria-label='More actions'
+            className='md:hidden'
           >
-            <Trash2 className='text-destructive' />
-            Delete
+            <MoreVertical />
           </Button>
+        </DropdownMenuTrigger>
 
-          <Button
-            variant='outline'
-            size='sm'
+        <DropdownMenuContent align='end'>
+          <DropdownMenuItem
             onClick={onEdit}
+            className='h-12'
             aria-label='Edit agent'
           >
             <Edit />
             Edit
-          </Button>
-        </div>
-      )}
+          </DropdownMenuItem>
+
+          <DropdownMenuSeparator />
+
+          <DropdownMenuItem
+            onClick={onDelete}
+            className='h-12'
+            aria-label='Delete agent'
+          >
+            <Trash2 className='text-destructive' />
+            Delete
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      {/* Desktop buttons - hidden on mobile */}
+      <div className='hidden md:flex gap-3'>
+        <Button
+          variant='outline'
+          size='sm'
+          onClick={onEdit}
+          aria-label='Edit agent'
+          disabled={!onEdit}
+        >
+          <Edit />
+          Edit
+        </Button>
+
+        <Button
+          variant='outline'
+          size='sm'
+          onClick={onDelete}
+          aria-label='Delete agent'
+          disabled={!onDelete}
+        >
+          <Trash2 className='text-destructive' />
+          Delete
+        </Button>
+      </div>
     </header>
   );
 };
