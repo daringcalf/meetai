@@ -15,6 +15,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet';
+import { useRef } from 'react';
 
 interface ResponsiveDialogProps {
   title: string;
@@ -32,15 +33,26 @@ const ResponsiveDialog = ({
   onOpenChange,
 }: ResponsiveDialogProps) => {
   const isMobile = useIsMobile();
+  const sheetRef = useRef<HTMLDivElement>(null);
 
   if (isMobile)
     return (
       <Sheet open={open} onOpenChange={onOpenChange}>
         <SheetContent
+          ref={sheetRef}
           side='bottom'
-          className='px-6 pb-8'
+          className='px-6 pb-8 focus-visible:outline-none'
           // workaround for iOS auto-focus scrolling issue
-          onOpenAutoFocus={(e) => e.preventDefault()}
+          // TODO: investigate better solution
+          onOpenAutoFocus={(e) => {
+            e.preventDefault();
+            // manually focus the sheet content after it opens
+            // to bypass aria-hidden issues
+            // TODO: investigate better solution
+            requestAnimationFrame(() => {
+              sheetRef.current?.focus();
+            });
+          }}
         >
           <SheetHeader className='px-0'>
             <SheetTitle>{title}</SheetTitle>
