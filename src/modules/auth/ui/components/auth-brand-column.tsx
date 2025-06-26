@@ -5,7 +5,7 @@ const AuthBrandColumn = () => {
     <div className='hidden md:flex flex-col gap-4 items-center justify-center bg-radial from-emerald-700 to-emerald-900'>
       <div className='p-5 rounded-2xl bg-emerald-50/20 backdrop-blur-sm border border-emerald-200/60 shadow-xl'>
         <Image
-          src='logo.svg'
+          src='/logo.svg'
           alt='Meet・AI Logo'
           width={96}
           height={64}
