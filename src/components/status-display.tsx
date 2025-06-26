@@ -17,7 +17,7 @@ const StatusDisplay = ({
 }: StatusDisplayProps) => {
   if (type === 'empty') {
     return (
-      <div className='flex items-center justify-center h-full'>
+      <div className='flex items-center justify-center flex-1'>
         <Card className={cn('p-8 border-none bg-white shadow-none', className)}>
           <div className='flex flex-col items-center gap-3'>
             <Bot />
@@ -32,7 +32,7 @@ const StatusDisplay = ({
   const isError = type === 'error';
 
   return (
-    <div className='grid place-items-center h-full'>
+    <div className='grid place-items-center flex-1'>
       <Card
         className={cn(
           'p-8 border-none shadow-sm',

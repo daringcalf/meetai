@@ -39,7 +39,7 @@ const AgentsPage = async ({
   );
 
   return (
-    <div className='flex flex-col gap-4 p-4 md:px-8 flex-1'>
+    <>
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Suspense fallback={<AgentsListHeaderLoading />}>
           <ErrorBoundary fallback={<AgentsListHeaderLoading />}>
@@ -57,7 +57,7 @@ const AgentsPage = async ({
           </ErrorBoundary>
         </Suspense>
       </HydrationBoundary>
-    </div>
+    </>
   );
 };
 
