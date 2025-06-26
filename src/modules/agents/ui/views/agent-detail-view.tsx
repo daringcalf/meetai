@@ -28,8 +28,12 @@ const AgentDetailView = ({ agentId }: AgentDetailViewProps) => {
     <>
       <AgentDetailHeader
         agentName={agent.name}
-        onEdit={() => {}}
-        onDelete={() => {}}
+        onEdit={() => {
+          // TODO: Implement edit functionality
+        }}
+        onDelete={() => {
+          // TODO: Implement delete functionality
+        }}
       />
 
       <Card className='px-0 py-4 md:py-8 gap-4 md:gap-8 shadow-none'>
@@ -45,12 +49,13 @@ const AgentDetailView = ({ agentId }: AgentDetailViewProps) => {
           </CardTitle>
 
           <CardDescription></CardDescription>
+          {/* CardDescription intentionally empty - reserved for future use */}
         </CardHeader>
 
         <CardContent className='px-4 md:px-8'>
           <h3 className='text-base font-semibold mb-2'>Instructions</h3>
 
-          {agent.instructions}
+          <div className='whitespace-pre-wrap'>{agent.instructions}</div>
         </CardContent>
       </Card>
     </>

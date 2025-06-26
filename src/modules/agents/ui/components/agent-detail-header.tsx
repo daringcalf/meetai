@@ -20,14 +20,23 @@ import { Button } from '@/components/ui/button';
 import { Edit, Trash2, MoreVertical } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
+/**
+ * Props for the AgentDetailHeader component
+ * @param agentName - The name of the agent to display in breadcrumb
+ * @param agentsListPath - The path to the agents list page, defaults to '/agents'
+ * @param onEdit - Callback function triggered when edit action is clicked
+ * @param onDelete - Callback function triggered when delete action is clicked
+ */
 interface AgentDetailHeaderProps {
   agentName?: string;
+  agentsListPath?: string;
   onEdit?: () => void;
   onDelete?: () => void;
 }
 
 const AgentDetailHeader = ({
   agentName,
+  agentsListPath = '/agents',
   onEdit,
   onDelete,
 }: AgentDetailHeaderProps) => {
@@ -38,13 +47,17 @@ const AgentDetailHeader = ({
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem className='text-lg font-semibold'>
-            <BreadcrumbLink href='/agents'>My Agents</BreadcrumbLink>
+            <BreadcrumbLink href={agentsListPath}>My Agents</BreadcrumbLink>
           </BreadcrumbItem>
 
           <BreadcrumbSeparator />
           <BreadcrumbItem>
             <BreadcrumbPage className='font-semibold text-base'>
-              {agentName ? agentName : <Skeleton className='h-4 w-24' />}
+              {agentName !== undefined ? (
+                agentName
+              ) : (
+                <Skeleton className='h-4 w-24' />
+              )}
             </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
@@ -54,20 +67,28 @@ const AgentDetailHeader = ({
         // without modal={false}, the dialog that this dropdown opens cause the page to get unclickable
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
-            <Button variant='outline' size='icon'>
+            <Button variant='outline' size='icon' aria-label='More actions'>
               <MoreVertical />
             </Button>
           </DropdownMenuTrigger>
 
           <DropdownMenuContent align='end'>
-            <DropdownMenuItem onClick={onEdit} className='h-12'>
+            <DropdownMenuItem
+              onClick={onEdit}
+              className='h-12'
+              aria-label='Edit agent'
+            >
               <Edit />
               Edit
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem onClick={onDelete} className='h-12'>
+            <DropdownMenuItem
+              onClick={onDelete}
+              className='h-12'
+              aria-label='Delete agent'
+            >
               <Trash2 className='text-destructive' />
               Delete
             </DropdownMenuItem>
@@ -75,12 +96,22 @@ const AgentDetailHeader = ({
         </DropdownMenu>
       ) : (
         <div className='flex gap-3'>
-          <Button variant='outline' size='sm' onClick={onDelete}>
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={onDelete}
+            aria-label='Delete agent'
+          >
             <Trash2 className='text-destructive' />
             Delete
           </Button>
 
-          <Button variant='outline' size='sm' onClick={onEdit}>
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={onEdit}
+            aria-label='Edit agent'
+          >
             <Edit />
             Edit
           </Button>
