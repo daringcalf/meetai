@@ -84,7 +84,7 @@ const useConfirm = (
   }
 
   const ConfirmAlertDialog = () => (
-    <AlertDialog open={!!promise}>
+    <AlertDialog open={!!promise} onOpenChange={handleClose}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>

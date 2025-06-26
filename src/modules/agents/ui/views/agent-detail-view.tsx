@@ -35,7 +35,7 @@ const AgentDetailView = ({ agentId }: AgentDetailViewProps) => {
     trpc.agents.getOne.queryOptions({ id: agentId })
   );
 
-  const deleteMuatation = useMutation(
+  const deleteMutation = useMutation(
     trpc.agents.deleteOne.mutationOptions({
       onSuccess: () => {
         queryClient.invalidateQueries(trpc.agents.getMany.queryOptions({}));
@@ -61,7 +61,7 @@ const AgentDetailView = ({ agentId }: AgentDetailViewProps) => {
     const confirmed = await deleteConfirm();
     if (!confirmed) return;
 
-    deleteMuatation.mutate({ id: agentId });
+    deleteMutation.mutate({ id: agentId });
   };
 
   const handleEdit = () => {
