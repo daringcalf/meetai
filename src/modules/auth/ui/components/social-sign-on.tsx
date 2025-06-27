@@ -1,11 +1,15 @@
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { signIn } from '@/lib/auth-client';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import BrandIcon from '@/components/brand-icon';
 import StatusDisplay from '@/components/status-display';
-import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog';
 import * as siIcons from 'simple-icons/icons';
 
 const callbackURL = '/';
