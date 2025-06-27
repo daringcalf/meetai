@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import BrandIcon from '@/components/brand-icon';
 import StatusDisplay from '@/components/status-display';
-import { DialogTitle } from '@radix-ui/react-dialog';
+import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog';
 import * as siIcons from 'simple-icons/icons';
 
 const callbackURL = '/';
@@ -68,6 +68,10 @@ const SocialSignOn = ({ pending }: SocialSignOnProps) => {
         <DialogTitle className='sr-only'>
           Redirecting to {authProvider?.label}
         </DialogTitle>
+        <DialogDescription className='sr-only'>
+          Redirecting to {authProvider?.label} for authentication.
+        </DialogDescription>
+
         <DialogContent
           className='border-none shadow-none p-0 w-fit bg-transparent focus-visible:outline-none'
           showCloseButton={false}
