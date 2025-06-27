@@ -26,6 +26,8 @@ interface ComboBoxResponsiveProps {
   placeholder?: string;
   className?: string;
   isLoading?: boolean;
+  emptyMessage?: string;
+  searchPlaceholder?: string;
 }
 
 const ComboBoxResponsive = ({
@@ -36,6 +38,8 @@ const ComboBoxResponsive = ({
   placeholder = 'Select an option',
   className,
   isLoading = false,
+  emptyMessage = 'No options found.',
+  searchPlaceholder = 'Search...',
 }: ComboBoxResponsiveProps) => {
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
@@ -99,7 +103,7 @@ const ComboBoxResponsive = ({
         className='min-h-[500px]'
       >
         <CommandInput
-          placeholder='Search agents...'
+          placeholder={searchPlaceholder}
           value={searchValue}
           onValueChange={(value) => {
             setSearchValue(value);
@@ -110,9 +114,7 @@ const ComboBoxResponsive = ({
           disabled={isLoading}
         />
         <CommandEmpty>
-          <span className='text-muted-foreground'>
-            {isLoading ? 'Loading...' : 'No agents found.'}
-          </span>
+          <span className='text-muted-foreground'>{emptyMessage}</span>
         </CommandEmpty>
 
         {/* this is a workaround for ios keyboard issues

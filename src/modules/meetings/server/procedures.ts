@@ -53,18 +53,17 @@ export const meetingsRouter = createTRPCRouter({
         search ? ilike(meetings.name, `%${search}%`) : undefined
       );
 
-      const data = await db
-        .select()
-        .from(meetings)
-        .where(whereConditions)
-        .orderBy(desc(meetings.createdAt), desc(meetings.id))
-        .limit(pageSize)
-        .offset((page - 1) * pageSize);
+      const [data, [total]] = await Promise.all([
+        db
+          .select()
+          .from(meetings)
+          .where(whereConditions)
+          .orderBy(desc(meetings.createdAt), desc(meetings.id))
+          .limit(pageSize)
+          .offset((page - 1) * pageSize),
 
-      const [total] = await db
-        .select({ count: count() })
-        .from(meetings)
-        .where(whereConditions);
+        db.select({ count: count() }).from(meetings).where(whereConditions),
+      ]);
 
       const totalPages = Math.ceil(total.count / pageSize);
 
@@ -99,6 +98,7 @@ export const meetingsRouter = createTRPCRouter({
         .set({
           name: input.name,
           agentId: input.agentId,
+          updatedAt: new Date(),
         })
         .where(
           and(eq(meetings.id, input.id), eq(meetings.userId, ctx.auth.user.id))

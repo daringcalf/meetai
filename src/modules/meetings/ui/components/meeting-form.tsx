@@ -126,7 +126,7 @@ const MeetingForm = ({
     if (isEditing) {
       updateMutation.mutate({
         ...values,
-        id: initialValues.agentId,
+        id: initialValues.id,
       });
 
       return;
@@ -204,6 +204,10 @@ const MeetingForm = ({
                     placeholder='Select an agent'
                     isLoading={agents.isLoading}
                     onSearch={setAgentSearch}
+                    emptyMessage={
+                      agents.isLoading ? 'Loading agents...' : 'No agents found'
+                    }
+                    searchPlaceholder='Search agents...'
                   />
                 </FormControl>
 

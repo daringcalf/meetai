@@ -1,5 +1,12 @@
 import { cn } from '@/lib/utils';
 
+const dotAnimation = 'animate-bounce';
+const delays = {
+  sm: ['', 'delay-75', 'delay-150'],
+  md: ['', 'delay-100', 'delay-200'],
+  lg: ['', 'delay-150', 'delay-300'],
+};
+
 interface LoadingDotsProps {
   className?: string;
   size?: 'sm' | 'md' | 'lg';
@@ -20,24 +27,17 @@ const LoadingDots = ({ className, size = 'md' }: LoadingDotsProps) => {
 
   return (
     <div className={cn('flex', gaps[size], className)}>
-      <div
-        className={cn(
-          dotSizes[size],
-          'bg-muted-foreground rounded-full animate-pulse'
-        )}
-      />
-      <div
-        className={cn(
-          dotSizes[size],
-          'bg-muted-foreground rounded-full animate-pulse delay-200'
-        )}
-      />
-      <div
-        className={cn(
-          dotSizes[size],
-          'bg-muted-foreground rounded-full animate-pulse delay-400'
-        )}
-      />
+      {delays[size].map((delay, index) => (
+        <div
+          key={index}
+          className={cn(
+            dotSizes[size],
+            'bg-muted-foreground rounded-full',
+            dotAnimation,
+            delay
+          )}
+        />
+      ))}
     </div>
   );
 };
