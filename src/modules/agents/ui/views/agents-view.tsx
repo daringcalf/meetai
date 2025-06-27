@@ -3,7 +3,7 @@
 import StatusDisplay from '@/components/status-display';
 import { useTRPC } from '@/trpc/client';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { DataTable } from '../components/data-table';
+import { DataTable } from '@/components/data-table';
 import { columns } from '../components/columns';
 import { useAgentFilters } from '../../hooks/use-agent-filters';
 import DataPagination from '../components/data-pagination';
