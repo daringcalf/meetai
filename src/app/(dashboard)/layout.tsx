@@ -12,7 +12,7 @@ export default function DashboardLayout({
       <DashboardSidebar />
       <SidebarInset>
         <DashboardNavbar />
-        {children}
+        <div className='flex flex-col gap-4 p-4 md:px-8 flex-1'>{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );
