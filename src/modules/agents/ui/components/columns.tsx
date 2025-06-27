@@ -1,11 +1,13 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { AgentGetOne } from '../../types';
+import { AgentGetMany } from '../../types';
 import UserAvatar from '@/components/user-avatar';
 import { CornerDownRight } from 'lucide-react';
 
-export const columns: ColumnDef<AgentGetOne>[] = [
+type Agent = AgentGetMany[number];
+
+export const columns: ColumnDef<Agent>[] = [
   {
     accessorKey: 'name',
     header: 'Agent Name',
@@ -17,7 +19,9 @@ export const columns: ColumnDef<AgentGetOne>[] = [
             style='thumbs'
             className='size-8 border border-border/20 rounded-sm'
           />
-          <h6 className='text-base font-medium'>{row.original.name}</h6>
+          <h6 className='text-base font-medium max-w-96 truncate'>
+            {row.original.name}
+          </h6>
         </div>
 
         <div className='flex items-center gap-2 pl-4'>

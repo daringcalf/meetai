@@ -1,4 +1,4 @@
-import { Loader2, AlertCircle, Bot } from 'lucide-react';
+import { Loader2, AlertCircle, Bot, Video, User } from 'lucide-react';
 import { Card } from './ui/card';
 import { cn } from '@/lib/utils';
 
@@ -20,7 +20,10 @@ const StatusDisplay = ({
       <div className='flex items-center justify-center flex-1'>
         <Card className={cn('p-8 border-none bg-white shadow-none', className)}>
           <div className='flex flex-col items-center gap-3'>
-            <Bot />
+            <div className='flex items-center justify-center gap-2'>
+              <Bot className='rotate-12' /> <Video className='-rotate-12' />{' '}
+              <User className='rotate-12' />
+            </div>
             <h6 className='text-base font-medium text-gray-800'>{title}</h6>
             <p className='text-sm text-gray-500 text-center'>{description}</p>
           </div>
