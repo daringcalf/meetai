@@ -1,8 +1,8 @@
 import { db } from '@/db';
-import { meetings } from '@/db/schema';
+import { agents, meetings } from '@/db/schema';
 import { createTRPCRouter, protectedProcedure } from '@/trpc/init';
 import { z } from 'zod/v4';
-import { and, count, desc, eq, ilike } from 'drizzle-orm';
+import { and, count, desc, eq, getTableColumns, ilike, sql } from 'drizzle-orm';
 import {
   DEFAULT_PAGE,
   DEFAULT_PAGE_SIZE,
@@ -55,14 +55,26 @@ export const meetingsRouter = createTRPCRouter({
 
       const [data, [total]] = await Promise.all([
         db
-          .select()
+          .select({
+            ...getTableColumns(meetings),
+            agent: agents,
+            duration:
+              sql<number>`EXTRACT(EPOCH FROM (${meetings.endedAt} - ${meetings.startedAt}))`.as(
+                'duration'
+              ),
+          })
           .from(meetings)
+          .innerJoin(agents, eq(meetings.agentId, agents.id))
           .where(whereConditions)
           .orderBy(desc(meetings.createdAt), desc(meetings.id))
           .limit(pageSize)
           .offset((page - 1) * pageSize),
 
-        db.select({ count: count() }).from(meetings).where(whereConditions),
+        db
+          .select({ count: count() })
+          .from(meetings)
+          .innerJoin(agents, eq(meetings.agentId, agents.id))
+          .where(whereConditions),
       ]);
 
       const totalPages = Math.ceil(total.count / pageSize);

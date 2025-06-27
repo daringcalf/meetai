@@ -29,14 +29,8 @@ const MeetingsPage = async ({
     redirect('/sign-in');
   }
 
-  const filters = await loadSearchParams(searchParams);
-
   const queryClient = getQueryClient();
-  void queryClient.prefetchQuery(
-    trpc.meetings.getMany.queryOptions({
-      ...filters,
-    })
-  );
+  void queryClient.prefetchQuery(trpc.meetings.getMany.queryOptions({}));
 
   return (
     <>
@@ -44,6 +38,14 @@ const MeetingsPage = async ({
         <Suspense fallback={<MeetingsListHeaderLoading />}>
           <ErrorBoundary fallback={<MeetingsListHeaderLoading />}>
             <MeetingsListHeader />
+          </ErrorBoundary>
+        </Suspense>
+      </HydrationBoundary>
+
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <Suspense fallback={<MeetingsViewLoading />}>
+          <ErrorBoundary fallback={<MeetingsViewError />}>
+            <MeetingsView />
           </ErrorBoundary>
         </Suspense>
       </HydrationBoundary>
