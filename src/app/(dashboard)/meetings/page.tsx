@@ -31,8 +31,6 @@ const MeetingsPage = async ({
 
   const filters = await loadSearchParams(searchParams);
 
-  console.log('server filters', filters);
-
   const queryClient = getQueryClient();
   void queryClient.prefetchQuery(
     trpc.meetings.getMany.queryOptions({

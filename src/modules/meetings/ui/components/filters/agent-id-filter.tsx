@@ -26,6 +26,8 @@ const AgentIdFilter = ({ disabled }: AgentIdFilterProps) => {
     })
   );
 
+  // TODO: Add error handling for agent fetching
+
   const onClearFilters = () => {
     setFilters({ agentId: null });
   };

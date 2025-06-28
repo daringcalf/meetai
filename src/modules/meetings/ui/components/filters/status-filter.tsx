@@ -25,7 +25,6 @@ const options = [
   {
     status: MeetingStatus.Active,
     icon: Video,
-    value: MeetingStatus.Active,
   },
   {
     status: MeetingStatus.Processing,
