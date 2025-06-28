@@ -53,7 +53,7 @@ const ComboBoxResponsive = ({
   );
 
   return (
-    <div className='overflow-hidden'>
+    <div className=''>
       <Button
         type='button'
         variant='outline'
@@ -73,16 +73,18 @@ const ComboBoxResponsive = ({
             e.preventDefault();
             return;
           }
-          onSearch?.(searchValue); // initiate options
+          setSearchValue(''); // reset search value when opening
+          onSearch?.(''); // initiate options
           setOpen(true);
         }}
       >
         <span>
-          {selectedOption?.label ?? placeholder} {isLoading && ' (Loading...)'}
+          {selectedOption?.label ?? placeholder}
+          {!open && isLoading && ' (Loading...)'}
         </span>
 
         <div className='flex items-center gap-2'>
-          {isLoading && <LoadingDots />}
+          {!open && isLoading && <LoadingDots />}
           <ChevronsUpDown />
         </div>
       </Button>
@@ -91,9 +93,7 @@ const ComboBoxResponsive = ({
         open={open}
         onOpenChange={(isOpen) => {
           setOpen(isOpen);
-          if (!isOpen) {
-            setSearchValue('');
-          }
+          // setSearchValue('');
         }}
         title='Select an option'
         description='Choose from the available options.'
@@ -109,12 +109,16 @@ const ComboBoxResponsive = ({
             setSearchValue(value);
             debouncedSearch(value);
           }}
-          className='text-base disabled:cursor-wait'
+          className={cn('text-base', {
+            'cursor-wait text-muted-foreground': isLoading,
+          })}
           autoComplete='off'
-          disabled={isLoading}
         />
+
         <CommandEmpty>
-          <span className='text-muted-foreground'>{emptyMessage}</span>
+          <span className='text-muted-foreground'>
+            {isLoading ? 'Loading...' : emptyMessage}
+          </span>
         </CommandEmpty>
 
         {/* this is a workaround for ios keyboard issues

@@ -6,12 +6,18 @@ import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { useTRPC } from '@/trpc/client';
 import { useSuspenseQuery } from '@tanstack/react-query';
+import { useMeetingFilters } from '../../hooks/use-meeting-filters';
 
 const MeetingsListHeader = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [filters] = useMeetingFilters();
 
   const trpc = useTRPC();
-  void useSuspenseQuery(trpc.meetings.getMany.queryOptions({}));
+  void useSuspenseQuery(
+    trpc.meetings.getMany.queryOptions({
+      ...filters,
+    })
+  );
 
   return (
     <>

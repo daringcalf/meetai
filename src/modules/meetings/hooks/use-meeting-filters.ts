@@ -1,5 +1,11 @@
 import { DEFAULT_PAGE } from '@/constants';
-import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs';
+import {
+  parseAsInteger,
+  parseAsString,
+  parseAsStringEnum,
+  useQueryStates,
+} from 'nuqs';
+import { MeetingStatus } from '../types';
 
 export const useMeetingFilters = () => {
   return useQueryStates({
@@ -7,5 +13,9 @@ export const useMeetingFilters = () => {
     page: parseAsInteger
       .withDefault(DEFAULT_PAGE)
       .withOptions({ clearOnDefault: true }),
+    agentId: parseAsString
+      .withDefault('')
+      .withOptions({ clearOnDefault: true }),
+    status: parseAsStringEnum(Object.values(MeetingStatus)),
   });
 };
