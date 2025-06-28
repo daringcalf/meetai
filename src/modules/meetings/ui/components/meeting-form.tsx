@@ -176,26 +176,35 @@ const MeetingForm = ({
                     options={(agents.data?.items ?? []).map((agent) => ({
                       value: agent.id,
                       listLabel: (
-                        <div className='flex items-center gap-2 pl-2 pr-8 overflow-hidden'>
-                          <UserAvatar
-                            name={agent.name}
-                            style='thumbs'
-                            className='border border-border/20'
-                          />
-                          <span className='truncate'>{agent.name}</span>
-                          <span className='text-sm text-muted-foreground truncate'>
+                        <div className='grid grid-cols-[136px_1fr] items-center gap-4 pr-8'>
+                          <div className='flex items-center gap-2'>
+                            <UserAvatar
+                              name={agent.name}
+                              style='thumbs'
+                              className='border border-border/20'
+                            />
+                            <span className='truncate' title={agent.name}>
+                              {agent.name}
+                            </span>
+                          </div>
+                          <span
+                            className='text-sm text-muted-foreground truncate'
+                            title={agent.instructions}
+                          >
                             {agent.instructions}
                           </span>
                         </div>
                       ),
                       label: (
-                        <div className='flex items-center gap-2 pr-4 overflow-hidden'>
+                        <div className='flex items-center gap-2 pr-4'>
                           <UserAvatar
                             name={agent.name}
                             style='thumbs'
                             className='border border-border/20'
                           />
-                          <span className='truncate'>{agent.name}</span>
+                          <span className='truncate max-w-48'>
+                            {agent.name}
+                          </span>
                         </div>
                       ),
                     }))}
