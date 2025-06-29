@@ -102,7 +102,7 @@ const MeetingDetailHeader = ({
           variant='outline'
           size='sm'
           onClick={onEdit}
-          aria-label='Edit agent'
+          aria-label='Edit meeting'
           disabled={!onEdit}
         >
           <Edit />
@@ -113,7 +113,7 @@ const MeetingDetailHeader = ({
           variant='outline'
           size='sm'
           onClick={onDelete}
-          aria-label='Delete agent'
+          aria-label='Delete meeting'
           disabled={!onDelete}
         >
           <Trash2 className='text-destructive' />
