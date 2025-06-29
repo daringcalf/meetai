@@ -20,9 +20,9 @@ import { Button } from '@/components/ui/button';
 import { Edit, Trash2, MoreVertical } from 'lucide-react';
 
 /**
- * Props for the AgentDetailHeader component
- * @param agentName - The name of the agent to display in breadcrumb
- * @param agentsListPath - The path to the agents list page, defaults to '/agents'
+ * Props for the MeetingDetailHeader component
+ * @param meetingName - The name of the meeting to display in breadcrumb
+ * @param meetingsListPath - The path to the meetings list page, defaults to '/meetings'
  * @param onEdit - Callback function triggered when edit action is clicked
  * @param onDelete - Callback function triggered when delete action is clicked
  */
@@ -77,7 +77,7 @@ const MeetingDetailHeader = ({
           <DropdownMenuItem
             onClick={onEdit}
             className='h-12'
-            aria-label='Edit agent'
+            aria-label='Edit meeting'
           >
             <Edit />
             Edit
@@ -88,7 +88,7 @@ const MeetingDetailHeader = ({
           <DropdownMenuItem
             onClick={onDelete}
             className='h-12'
-            aria-label='Delete agent'
+            aria-label='Delete meeting'
           >
             <Trash2 className='text-destructive' />
             Delete
